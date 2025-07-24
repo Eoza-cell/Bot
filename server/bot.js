@@ -20,12 +20,41 @@ export class WhatsAppBot {
   }
 
   async initialize() {
-    this.client = new Client({
-      authStrategy: new LocalAuth(),
-      puppeteer: {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const puppeteerOptions = {
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--disable-gpu',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--disable-extensions',
+        '--disable-features=TranslateUI',
+        '--disable-ipc-flooding-protection'
+      ]
+    };
+
+    // Try to find chromium executable
+    try {
+      const fs = await import('fs');
+      const chromiumPath = '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium';
+      if (fs.existsSync(chromiumPath)) {
+        puppeteerOptions.executablePath = chromiumPath;
       }
+    } catch (error) {
+      console.log('Using default chromium path');
+    }
+
+    this.client = new Client({
+      authStrategy: new LocalAuth({
+        dataPath: './whatsapp_auth'
+      }),
+      puppeteer: puppeteerOptions
     });
 
     this.setupEventHandlers();
