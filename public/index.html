@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friction Ultimate - WhatsApp RPG Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .hero-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-online { background-color: #28a745; }
+        .status-offline { background-color: #dc3545; }
+        .status-loading { background-color: #ffc107; animation: pulse 1s infinite; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .feature-card {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="hero-section">
+            <h1 class="display-3 mb-4">
+                <i data-feather="zap"></i>
+                FRICTION ULTIMATE
+            </h1>
+            <p class="lead mb-5">WhatsApp Fantasy RPG Bot avec IA et personnalisation 3D</p>
+            
+            <!-- Bot Status -->
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span id="status-indicator" class="status-indicator status-offline"></span>
+                        Statut du Bot
+                    </h5>
+                    <p id="bot-status" class="card-text">Bot arrêté</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button id="start-bot" class="btn btn-primary btn-lg me-md-2">
+                            <i data-feather="play"></i> Démarrer le Bot
+                        </button>
+                        <button id="stop-bot" class="btn btn-outline-danger btn-lg" disabled>
+                            <i data-feather="stop"></i> Arrêter le Bot
+                        </button>
+                        <a href="/qr" class="btn btn-outline-light btn-lg">
+                            <i data-feather="smartphone"></i> Code QR
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body text-center">
+                        <i data-feather="user" class="mb-3" style="width: 48px; height: 48px;"></i>
+                        <h5 class="card-title">Création de Personnage</h5>
+                        <p class="card-text">Personnalisez votre avatar 3D avec des équipements détaillés et des styles uniques.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body text-center">
+                        <i data-feather="brain" class="mb-3" style="width: 48px; height: 48px;"></i>
+                        <h5 class="card-title">Narration IA</h5>
+                        <p class="card-text">Intelligence artificielle Gemini pour des aventures dynamiques et immersives.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body text-center">
+                        <i data-feather="users" class="mb-3" style="width: 48px; height: 48px;"></i>
+                        <h5 class="card-title">Multi-Groupes</h5>
+                        <p class="card-text">Votre personnage vous suit à travers tous les groupes WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Systems -->
+        <div class="row mb-5">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i data-feather="shield" class="me-2"></i>
+                            Système RPG Avancé
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li><i data-feather="chevron-right" class="me-2"></i> Niveaux de puissance (G à A)</li>
+                            <li><i data-feather="chevron-right" class="me-2"></i> 12 royaumes d'origine</li>
+                            <li><i data-feather="chevron-right" class="me-2"></i> 7 ordres mystiques</li>
+                            <li><i data-feather="chevron-right" class="me-2"></i> Combat détaillé et tactique</li>
+                            <li><i data-feather="chevron-right" class="me-2"></i> Système de friction dynamique</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i data-feather="command" class="me-2"></i>
+                            Commandes Principales
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li><code>/register [nom]</code> - Créer un personnage</li>
+                            <li><code>/menu</code> - Menu principal</li>
+                            <li><code>/fiche</code> - Fiche personnage</li>
+                            <li><code>/create</code> - Personnalisation</li>
+                            <li><code>/spawn</code> - Commencer l'aventure</li>
+                            <li><code>/help</code> - Aide complète</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="card mb-5">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i data-feather="info" class="me-2"></i>
+                    Instructions de Démarrage
+                </h5>
+                <ol>
+                    <li>Cliquez sur "Démarrer le Bot" ci-dessus</li>
+                    <li>Scannez le code QR avec WhatsApp Web</li>
+                    <li>Ajoutez le bot à vos groupes WhatsApp</li>
+                    <li>Utilisez <code>/register [nom]</code> pour créer votre personnage</li>
+                    <li>Commencez votre aventure avec <code>/spawn</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center py-4">
+            <p>&copy; 2024 Friction Ultimate - Bot RPG WhatsApp avec IA</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.js"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // DOM elements
+        const startBtn = document.getElementById('start-bot');
+        const stopBtn = document.getElementById('stop-bot');
+        const statusIndicator = document.getElementById('status-indicator');
+        const statusText = document.getElementById('bot-status');
+
+        // Update status
+        function updateStatus(running, ready = false) {
+            if (running && ready) {
+                statusIndicator.className = 'status-indicator status-online';
+                statusText.textContent = 'Bot en ligne et connecté à WhatsApp';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else if (running) {
+                statusIndicator.className = 'status-indicator status-loading';
+                statusText.textContent = 'Bot en cours de démarrage...';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                statusIndicator.className = 'status-indicator status-offline';
+                statusText.textContent = 'Bot arrêté';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        }
+
+        // Check status periodically
+        async function checkStatus() {
+            try {
+                const response = await fetch('/bot-status');
+                const data = await response.json();
+                updateStatus(data.running, data.ready);
+            } catch (error) {
+                console.error('Error checking status:', error);
+                updateStatus(false);
+            }
+        }
+
+        // Start bot
+        startBtn.addEventListener('click', async () => {
+            try {
+                statusIndicator.className = 'status-indicator status-loading';
+                statusText.textContent = 'Démarrage du bot...';
+                startBtn.disabled = true;
+
+                const response = await fetch('/start-bot', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    setTimeout(checkStatus, 2000);
+                } else {
+                    alert('Erreur: ' + data.message);
+                    updateStatus(false);
+                }
+            } catch (error) {
+                console.error('Error starting bot:', error);
+                alert('Erreur lors du démarrage du bot');
+                updateStatus(false);
+            }
+        });
+
+        // Stop bot
+        stopBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/stop-bot', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStatus(false);
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error stopping bot:', error);
+                alert('Erreur lors de l\'arrêt du bot');
+            }
+        });
+
+        // Initial status check
+        checkStatus();
+        
+        // Check status every 5 seconds
+        setInterval(checkStatus, 5000);
+    </script>
+</body>
+</html>
