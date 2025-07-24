@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test QR Code - Friction Ultimate</title>
+    <style>
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .qr-display {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 20px;
+        }
+        .status {
+            margin: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Test QR Code WhatsApp</h1>
+    
+    <div class="status" id="status">
+        Chargement...
+    </div>
+    
+    <div class="qr-display" id="qr-display" style="display: none;">
+        <img id="qr-image" style="width: 256px; height: 256px;">
+    </div>
+    
+    <div>
+        <button onclick="startBot()">Démarrer Bot</button>
+        <button onclick="checkStatus()">Vérifier Statut</button>
+    </div>
+
+    <script>
+        async function startBot() {
+            try {
+                const response = await fetch('/start-bot', { method: 'POST' });
+                const data = await response.json();
+                document.getElementById('status').textContent = data.success ? '✅ Bot démarré' : '❌ Erreur: ' + data.message;
+                setTimeout(checkStatus, 2000);
+            } catch (error) {
+                document.getElementById('status').textContent = '❌ Erreur de connexion: ' + error.message;
+            }
+        }
+
+        async function checkStatus() {
+            try {
+                const response = await fetch('/bot-status');
+                const data = await response.json();
+                
+                let statusText = '';
+                if (data.running && data.ready) {
+                    statusText = '🟢 Bot connecté à WhatsApp';
+                    document.getElementById('qr-display').style.display = 'none';
+                } else if (data.running && !data.ready) {
+                    statusText = '🟡 En attente de connexion WhatsApp';
+                    if (data.qrCode) {
+                        document.getElementById('qr-image').src = data.qrCode;
+                        document.getElementById('qr-display').style.display = 'block';
+                        statusText += ' - QR Code affiché';
+                    }
+                } else {
+                    statusText = '⚫ Bot arrêté';
+                    document.getElementById('qr-display').style.display = 'none';
+                }
+                
+                document.getElementById('status').textContent = statusText;
+            } catch (error) {
+                document.getElementById('status').textContent = '❌ Erreur lors de la vérification: ' + error.message;
+            }
+        }
+
+        // Vérifier le statut automatiquement
+        checkStatus();
+        setInterval(checkStatus, 3000);
+    </script>
+</body>
+</html>

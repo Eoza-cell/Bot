@@ -114,6 +114,11 @@
         async function updateStatus() {
             try {
                 const response = await fetch('/bot-status');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 const statusBadge = document.getElementById('status-badge');
@@ -132,6 +137,8 @@
                     statusBadge.textContent = '🟡 En attente de connexion';
                     if (data.qrCode) {
                         showQRCode(data.qrCode);
+                    } else {
+                        console.log('QR code non disponible');
                     }
                     startBtn.disabled = true;
                     stopBtn.disabled = false;
@@ -143,7 +150,7 @@
                     stopBtn.disabled = true;
                 }
             } catch (error) {
-                console.error('Erreur lors de la vérification du statut:', error);
+                console.log('Erreur lors de la vérification du statut:', error);
                 const statusBadge = document.getElementById('status-badge');
                 statusBadge.className = 'badge bg-danger status-badge';
                 statusBadge.textContent = '🔴 Erreur de connexion';
@@ -154,20 +161,35 @@
             const qrCard = document.getElementById('qr-card');
             const canvas = document.getElementById('qr-canvas');
             
-            QRCode.toCanvas(canvas, qrData, {
-                width: 256,
-                margin: 2,
-                color: {
-                    dark: '#000000',
-                    light: '#FFFFFF'
-                }
-            }, function (error) {
-                if (error) {
-                    console.error('Erreur QR Code:', error);
-                    return;
-                }
+            // Si le QR code est déjà une image en base64, l'afficher directement
+            if (qrData.startsWith('data:image/')) {
+                const img = document.createElement('img');
+                img.src = qrData;
+                img.style.width = '256px';
+                img.style.height = '256px';
+                
+                // Remplacer le canvas par l'image
+                const container = document.getElementById('qr-container');
+                container.innerHTML = '';
+                container.appendChild(img);
                 qrCard.style.display = 'block';
-            });
+            } else {
+                // Générer le QR code avec QRCode.js
+                QRCode.toCanvas(canvas, qrData, {
+                    width: 256,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    }
+                }, function (error) {
+                    if (error) {
+                        console.log('Erreur QR Code:', error);
+                        return;
+                    }
+                    qrCard.style.display = 'block';
+                });
+            }
         }
 
         document.getElementById('start-btn').addEventListener('click', async () => {

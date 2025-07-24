@@ -1,2 +1,3 @@
-2025/07/24-21:09:28.948 3b5 Creating DB /home/runner/workspace/whatsapp_auth/session/Default/GCM Store since it was missing.
-2025/07/24-21:09:28.955 3b5 Reusing MANIFEST /home/runner/workspace/whatsapp_auth/session/Default/GCM Store/MANIFEST-000001
+2025/07/24-21:13:55.836 7b9 Reusing MANIFEST /home/runner/workspace/whatsapp_auth/session/Default/GCM Store/MANIFEST-000001
+2025/07/24-21:13:55.837 7b9 Recovering log #3
+2025/07/24-21:13:55.837 7b9 Reusing old log /home/runner/workspace/whatsapp_auth/session/Default/GCM Store/000003.log 

@@ -29,6 +29,10 @@ app.get('/qr', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/qr-display.html'));
 });
 
+app.get('/test-qr', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/qr-test.html'));
+});
+
 app.post('/start-bot', async (req, res) => {
   try {
     if (botInstance) {
